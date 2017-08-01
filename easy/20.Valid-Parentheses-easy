@@ -1,0 +1,41 @@
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
+
+
+C:
+
+//每当成功配对一对，top就减一，没成功就加一,最终如果top仍然等于-1则表明配对成功了，该例子可再仔细琢磨
+bool isValid(char* s) {
+    int top=-1;
+    char stack[100];
+    int i=0;
+    while(s[i]!='\0')
+    {
+        if(s[i]==')')
+        {
+            if(top>=0&&stack[top]=='(')
+                top--;
+            else
+                return false;
+        }
+        else if(s[i]==']')
+        {
+            if(top>=0&&stack[top]=='[')
+                top--;
+            else
+                return false;
+        }
+        else if(s[i]=='}')
+        {
+            if(top>=0&&stack[top]=='{')
+                top--;
+            else
+                return false;
+        }
+        else
+            stack[++top]=s[i];
+        i++;
+    }
+    return top==-1;
+}
