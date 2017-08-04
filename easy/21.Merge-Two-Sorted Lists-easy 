@@ -1,0 +1,56 @@
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+//注意所给定的两组结构体是已经排序好的并且已经被串成链表了
+
+
+
+C:
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+     struct ListNode *head,*temp;
+    if(l1==NULL)
+        return l2;
+    if(l2==NULL)
+        return l1;
+//首先判断两个结构体的VAL变量哪个大，第一次要单独拿出来判断从而决定head指向哪一个结构体
+    if(l1->val<=l2->val)
+    {
+        head=l1;
+        l1=l1->next;
+    }
+    else
+    {
+        head=l2;
+        l2=l2->next;
+    }
+    temp=head;
+//之后利用临时指针temp，按照每个结构体的val变量大小从小到大的顺序排列起来
+    while(l1&&l2)
+    {
+        if(l1->val<=l2->val)
+        {
+            temp->next=l1;
+            l1=l1->next;
+        }
+        else
+        {
+            temp->next=l2;
+            l2=l2->next;
+        }
+        temp=temp->next;
+    }
+//当其中一个结构体数组的所有结构体都已被排序后，最后一个结构体指针指向NULL，因此会出现以下两种情形，如果l2指向NULL了，那么上次变动一定是l2，因此表示l2的结构体已经全部排序了，因此将指针指向l1所指向的结构体
+    if(l1)
+        temp->next=l1;
+    else if(l2)
+        temp->next=l2;
+    return head;
+}

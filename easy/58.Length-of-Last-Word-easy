@@ -1,0 +1,63 @@
+Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+
+If the last word does not exist, return 0.
+
+Note: A word is defined as a character sequence consists of non-space characters only.
+
+For example,
+Given s = "Hello World",
+return 5. 
+
+
+
+C:
+
+
+
+
+
+//我的方法：
+int lengthOfLastWord(char* s) {
+    int i=0;
+    int len=0;
+    int flag=-1;
+//用flag标记出最后一个单词的最后一个字母所在位置
+    while(s[i]!='\0')
+    {
+        if(s[i]!=' ')
+        {
+            flag=i;
+        }
+        i++;
+    }
+//如果字符串全是空格则返回0
+    if(flag==-1)
+        return 0;
+//如果有单词，那么从flag的位置开始，往前依次检验，len依次加一，直到遇到空格或是到达起点
+    while(s[flag]!=' '&&flag>=0)
+    {
+        len++;
+        flag--;
+    }
+    return len;
+}
+
+
+
+
+//网上好方法：Well, the basic idea is very simple. Start from the tail of s and move backwards to find the first non-space character. Then from this character, move backwards and count the number of non-space characters until we pass over the head of s or meet a space character. The count will then be the length of the last word.
+
+
+
+int lengthOfLastWord(char* s) {
+    int len=0;
+    int tail=strlen(s)-1;
+    while(tail>=0&&s[tail]==' ')
+        tail--;
+    while(tail>=0&&s[tail]!=' ')
+    {
+        len++;
+        tail--;
+    }
+    return len;
+}

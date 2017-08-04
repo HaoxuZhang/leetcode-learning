@@ -1,0 +1,30 @@
+ Implement strStr().
+
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack. 
+//给两个字符串，如果第二个字符串被包含在第一个字符串中，给出它在第一个字符串中出现的位置（起始位置）,例如第一个字符串为abcde，第二个字符串为bcd，则返回值为1,若第二个字符串没有在第一个字符串中出现，则返回值为-1
+
+
+
+
+C:
+
+
+
+int strStr(char* haystack, char* needle) {
+    int len_haystack;//定义第一个字符串长度
+    int len_needle;//定义第二个字符串长度
+    len_haystack=strlen(haystack);
+    len_needle=strlen(needle);
+    int i,j;
+    for(i=0;i<=len_haystack-len_needle;i++)
+    {
+        for(j=0;j<len_needle;j++)
+        {
+            if(needle[j]!=haystack[i+j])//当这个等式成立时，说明两个字符串的第一个元素一样了，即可能是在这个位置，假设在这个位置，那么i就是两个字符串对应位置的差值，利用这个等式不断检验，若始终没有被中断，则说明成立，那么最后j的值就是needle的长度
+                break;
+        }
+        if(j==len_needle)
+            return i;
+    }
+    return -1;
+}
