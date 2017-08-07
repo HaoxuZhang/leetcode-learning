@@ -1,0 +1,41 @@
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer. 
+
+
+C:
+
+
+
+//其实这是个fibonacci数列，我用以下递归的方法，但是当系统输入44时，数比较大，因此显示超时
+int climbStairs(int n) {
+    if(n<=0)
+        return 0;
+    if(n==1)
+        return 1;
+    if(n==2)
+        return 2;
+    return (climbStairs(n-1)+climbStairs(n-2));
+}
+
+
+
+//因此我找了别人的方法，不是递归，是利用循环，从前两个数开始向加，一直加到当前
+int climbStairs(int n) {
+    int now=0,lastOne=2,lastOfLastOne=1;
+    if(n<=0)
+        return 0;
+    if(n==1)
+        return 1;
+    if(n==2)
+        return 2;
+    for(int i=2;i<n;i++)
+    {
+        now=lastOne+lastOfLastOne;
+        lastOfLastOne=lastOne;
+        lastOne=now;
+    }
+    return now;
+}

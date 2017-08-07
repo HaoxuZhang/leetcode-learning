@@ -1,0 +1,37 @@
+Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
+
+You may assume the integer do not contain any leading zero, except the number 0 itself.
+
+The digits are stored such that the most significant digit is at the head of the list.
+
+
+
+C:
+
+
+//这个题我从网上借鉴的答案，首先，returnSize指向一个表示返回的数组长度的整型，不能忘记编译。其次是for循环中对每位数的处理需要学习。最后是malloc的使用，之前没见过这个函数
+int* plusOne(int* digits, int digitsSize, int* returnSize) {
+    int i;
+    int dex=1;
+    int *returns;
+    int tmp;
+    for(i=digitsSize-1;i>=0;i--)
+    {
+        tmp=(digits[i]+dex)%10;
+        dex=(digits[i]+dex)/10;
+        digits[i]=tmp;
+    }
+    if(dex==1)
+    {
+        returns=malloc(sizeof(int)*(digitsSize+1));
+        returns[0]=1;
+        for(i=0;i<digitsSize;i++)
+        {
+            returns[i+1]=digits[i];
+        }
+        *returnSize=digitsSize+1;
+        return returns;
+    }
+    *returnSize=digitsSize;
+    return digits;
+}

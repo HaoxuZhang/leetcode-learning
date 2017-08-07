@@ -1,0 +1,27 @@
+Implement int sqrt(int x).
+
+Compute and return the square root of x.
+
+
+
+
+C:
+
+
+
+//用以下方法运行程序可节省程序时间，一开始我将mid设为0,然后循环，若不合条件，则每次加一，那样消耗时间过长
+int mySqrt(int x) {
+    int mid=0,result=0,left=1,right=x;
+    while(left<=right)
+    {
+        mid=left+(right-left)/2;
+        if(mid<=x/mid)
+        {
+            left=mid+1;
+            result=mid;
+        }
+        else
+            right=mid-1;
+    }
+    return result;
+}

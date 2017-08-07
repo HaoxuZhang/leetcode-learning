@@ -1,0 +1,54 @@
+ Given two binary strings, return their sum (also a binary string).
+
+For example,
+a = "11"
+b = "1"
+Return "100". 
+
+
+
+C:
+
+
+//这道题与66题较为相似，只不过是二进制，而且是两个字符串相加，需要再设定一个字符串数组
+char* addBinary(char* a, char* b) {
+    int lenA=strlen(a);
+    int lenB=strlen(b);
+    int len=(lenA>lenB)?lenA:lenB;
+    char* str;
+    str=malloc(sizeof(char)*(len+2));
+    str[len+1]='\0';
+    int i;
+    int dex=0;
+    for(i=len;i>0&&lenA>0&&lenB>0;i--)
+    {
+        str[i]=((a[lenA-1]-'0')+(b[lenB-1]-'0')+dex)%2+'0';
+        dex=(a[lenA-1]-'0'+b[lenB-1]-'0'+dex)/2;
+        lenA--;
+        lenB--;
+    }
+    if(lenA==0)
+    {
+        for(;lenB>0;i--)
+        {
+            str[i]=((b[lenB-1]-'0')+dex)%2+'0';
+            dex=((b[lenB-1]-'0')+dex)/2;
+            lenB--;
+        }
+    }
+    else if(lenB==0)
+    {
+        for(;lenA>0;i--)
+        {
+            str[i]=((a[lenA-1]-'0')+dex)%2+'0';
+            dex=((a[lenA-1]-'0')+dex)/2;
+            lenA--;
+        }
+    }
+    if(dex==1)
+    {
+        str[0]='1';
+        return str;
+    }
+    return str+1;
+}
