@@ -1,0 +1,32 @@
+Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+//BST:一个节点的做分支的数比它小，右分支的数比它大
+
+
+
+
+
+c:
+
+
+//当前节点为中间大小的数，既然数组已经被从小到大排序好了，那么当前节点就是中点位置的数，依次递归即可
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+struct TreeNode* sortedArrayToBST2(int*nums,int left,int right)
+{
+    int mid=(left+right)/2;
+    if(left>right) return NULL;
+    struct TreeNode* p=malloc(sizeof(struct TreeNode));
+    p->val=nums[mid];
+    p->left=sortedArrayToBST2(nums,left,mid-1);
+    p->right=sortedArrayToBST2(nums,mid+1,right);
+    return p;
+}
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize) {
+    return sortedArrayToBST2(nums,0,numsSize-1);
+}
