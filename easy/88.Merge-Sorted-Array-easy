@@ -1,0 +1,24 @@
+Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+
+Note:
+You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
+
+
+
+C:
+
+
+//主要思想是设置三个index，分别对应两个数组以及结果数组，从后往前依次检阅，哪个元素大，就加入结果数组（nums1数组）
+void merge(int* nums1, int m, int* nums2, int n) {
+    int dex1=m-1,dex2=n-1,len=m+n-1;
+    while(dex1>=0&&dex2>=0)
+    {
+        nums1[len--]=(nums1[dex1]>nums2[dex2])?nums1[dex1--]:nums2[dex2--];
+    }
+//做完这个循环后，会出现两种情况，一种是nums2的所有数都已经被加进去，另一种是nums1的所有数都检阅完了，而nums2的数组还有剩余。
+//第一种情况下，说明nums2的所有数都已经排在后面了，那么nums1的剩下的数都已经处在了正确的位置上;但第二种情况，说明剩余nums2部分的数要排在nums1前面，因此还要做如下处理：
+    while(dex2>=0)
+    {
+        nums1[len--]=nums2[dex2--];
+    }
+}
