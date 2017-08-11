@@ -1,0 +1,47 @@
+ Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+For example,
+"A man, a plan, a canal: Panama" is a palindrome.
+"race a car" is not a palindrome.
+
+Note:
+Have you consider that the string might be empty? This is a good question to ask during an interview.
+
+For the purpose of this problem, we define empty string as valid palindrome. 
+
+
+C:
+
+
+
+bool isAlphanumeric(char c){
+//该函数用来判断所读取的字符是否应当被跳过
+    if(c>='a'&&c<='z') return true;
+    if(c>='0'&&c<='9') return true;
+    return false;
+}
+bool isPalindrome(char* s) {
+    if(s==NULL) return true;
+    int i;
+    int len=strlen(s);
+    for(i=0;i<len;i++)//先将所有大写转换为小写
+    {
+        if(s[i]<='Z'&&s[i]>='A')
+            s[i]+=32;
+    }
+    int left=0,right=len-1;
+    while(left<=right)
+    {
+        if(s[left]!=s[right]){  //如果两边不相等，则分为三种情况，第一种为读取的字符不应被跳过，第二种为左边读取字符应被跳过，第三种为右边读取字符应当被跳过
+            if(isAlphanumeric(s[left])&&isAlphanumeric(s[right])) return false;
+            if(!isAlphanumeric(s[left])) left++;
+            if(!isAlphanumeric(s[right])) right--;
+        }
+        else
+        {
+            left++;
+            right--;
+        }
+    }
+    return true;
+}

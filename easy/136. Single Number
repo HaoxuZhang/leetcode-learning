@@ -1,0 +1,42 @@
+Given an array of integers, every element appears twice except for one. Find that single one.
+
+Note:
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory? 
+
+
+C:
+
+
+//我的方法（因时间超时而没被选用）：
+int singleNumber(int* nums, int numsSize) {
+    int i,j,tmp=0;
+    for(i=0;i<numsSize-1;i++)
+    {
+        for(j=i+1;j<numsSize;j++)
+        {
+            if(nums[i]>nums[j])
+            {
+                tmp=nums[i];
+                nums[i]=nums[j];
+                nums[j]=tmp;
+            }
+        }
+    }
+    for(i=1;i<numsSize-1;i+=2)
+    {
+        if(nums[i]!=nums[i-1])
+            return nums[i-1];
+    }
+    return nums[numsSize-1];
+}
+
+
+//找到的好方法（特别巧妙）：利用XOR按位异或，既然只有一个数字只出现一次，其他数字都出现两次，说明其他数字异或之后仍然为0,0与只出现依次的数字异或之后仍未该数字本身
+int singleNumber(int* nums, int numsSize) {
+    int num=0;
+    for(int i=0;i<numsSize;i++)
+    {
+        num^=nums[i];
+    }
+    return num;
+}
