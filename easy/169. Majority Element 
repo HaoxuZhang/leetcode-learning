@@ -1,0 +1,29 @@
+Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the majority element always exist in the array.
+
+Credits:
+Special thanks to @ts for adding this problem and creating all test cases.
+
+
+C:
+
+//这个方法超时了，其他方法我还不明白
+int majorityElement(int* nums, int numsSize) {
+    int i,j;
+    if(numsSize==1)
+        return nums[0];
+    for(i=0;i<numsSize-1;i++)
+    {
+        for(j=i+1;j<numsSize;j++)
+        {
+            if(nums[i]>nums[j])
+            {
+                int tmp=nums[i];
+                nums[i]=nums[j];
+                nums[j]=tmp;
+            }
+        }
+    }
+    return nums[numsSize/2];
+}

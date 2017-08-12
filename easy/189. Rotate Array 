@@ -1,0 +1,23 @@
+Rotate an array of n elements to the right by k steps.
+
+For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4].
+
+Note:
+Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem. 
+
+
+C:
+
+//思路：设置一个临时指针指向一片空间，将右边需要移动到左端的数先放在那片空间里，然后将左边的向右移动，再将空间里的复制到左边即可，注意，如果k是大于numsSize的，那么其实相当于向右移动k%numsSize
+void rotate(int* nums, int numsSize, int k) {
+    int times=k%numsSize;
+    int *tmp=(int*)malloc(sizeof(int)*times);
+    int dex=0;
+    for(int i=numsSize-times;i<numsSize;i++)
+        tmp[dex++]=nums[i];
+//这个循环需要注意的是，不能从左边开始移动，要从右边移动，不然右边的数会先被左边的赋值
+    for(int i=numsSize-times-1;i>=0;i--)
+        nums[i+times]=nums[i];
+    for(int i=0;i<times;i++)
+        nums[i]=tmp[i];
+}

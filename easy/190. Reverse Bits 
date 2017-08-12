@@ -1,0 +1,20 @@
+Reverse bits of a given 32 bits unsigned integer.
+
+For example, given input 43261596 (represented in binary as 00000010100101000001111010011100), return 964176192 (represented in binary as 00111001011110000010100101000000).
+
+
+C:
+
+//首次接触此类题目
+uint32_t reverseBits(uint32_t n) {
+    uint32_t res=0;
+    for(int i=0;i<32;i++)
+    {
+        if(n&1==1)  //说明n的最右边一位为1,这时res需要向左移动一位并且加1，这样这个位就是1了
+            res=(res<<1)+1;
+        else  //说明n的最右边一位为0,这时res只需要向左移动一位，无需加一，这样这个位就是0
+            res=res<<1;
+        n=n>>1;
+    }
+    return res;
+}
