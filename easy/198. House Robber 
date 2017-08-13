@@ -1,0 +1,21 @@
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+
+//问题的实质是给定一个一维数组，不相邻数字之和最大为多少
+C：
+
+//动态规划问题，先找递推公式，设置一个dp数组，dp[i]表示在第i位时最大和是多少。那么dp[0]一定是数组中的第0个数nums[0]，dp[1]应当是数组中第0个和第1个中大的那个数（因为不能相邻），dp[2]就是数组中第0个与第2个之和与第1个相比较大的那个数，以此类推创建递推关系
+int max(int i,int j){
+    if(i>=j) return i;
+    return j;
+}
+int rob(int* nums, int numsSize) {
+    int* dp=malloc(sizeof(int)*numsSize);
+    dp[0]=nums[0];
+    dp[1]=max(nums[0],nums[1]);
+    for(int i=2;i<numsSize;i++)
+        dp[i]=max(dp[i-2]+nums[i],dp[i-1]);
+    return dp[numsSize-1];
+}

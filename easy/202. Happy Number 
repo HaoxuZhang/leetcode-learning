@@ -1,0 +1,37 @@
+Write an algorithm to determine if a number is "happy".
+
+A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.
+
+Example: 19 is a happy number
+
+    12 + 92 = 82
+    82 + 22 = 68
+    62 + 82 = 100
+    12 + 02 + 02 = 1
+
+
+C:
+
+//数字经过上述过程后会有两种结果，收敛与1或无限循环。思路：相当于设置两个指针，一个快一个慢，如果收敛与1,最终都等于1,如果无限循环，快的最终会追上慢的，并且不等于1
+int sqrSum(int n){
+    int dex;
+    int sum=0;
+    while(n)
+    {
+        dex=n%10;
+        sum+=dex*dex;
+        n=n/10;
+    }
+    return sum;
+}
+bool isHappy(int n) {
+    int slow,fast;
+    slow=fast=n;
+    do{
+        slow=sqrSum(slow);
+        fast=sqrSum(fast);
+        fast=sqrSum(fast);
+    }while(slow!=fast);
+    if(slow==1) return true;
+    else return false;
+}
