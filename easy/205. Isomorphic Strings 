@@ -1,0 +1,36 @@
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.
+
+For example,
+Given "egg", "add", return true.
+
+Given "foo", "bar", return false.
+
+Given "paper", "title", return true.
+
+Note:
+You may assume both s and t have the same length.
+
+
+C:
+
+//思路是将字符串转化为数字，第一个数组下标为s[i]对应的值为t[i]，第二个数组对应，这样就形成一一对应关系，由于字符串中没有null（对应ascii为0），所以将两个数组都初始化为0
+bool isIsomorphic(char* s, char* t) {
+    int mS[256]={0},mT[256]={0};
+    int i=0;
+    while(s[i]!='\0')
+    {
+        if(mS[s[i]]==0&&mT[t[i]]==0)//说明出现的字符之前没出现过
+        {
+            mS[s[i]]=t[i];
+            mT[t[i]]=s[i];
+        }
+        else if(mS[s[i]]!=t[i]||mT[t[i]]!=s[i])//出现的字符之前出现过，那就检查现在的字符跟之前出现的那次对应关系是否相同
+            return false;
+        i++;
+    }
+    return true;
+}

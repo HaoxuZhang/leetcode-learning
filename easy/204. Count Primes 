@@ -1,0 +1,29 @@
+Description:
+
+Count the number of prime numbers less than a non-negative number, n.
+
+
+C:
+
+//该题求的是n之内的素数个数，用的是sieve of Eratosthenes算法，在C语言视频课：计算机导论与C语言基础week10的2-2中讲述过，求n以内的素数，要把2的倍数，3的倍数.....根下n的倍数全部剔除（不包括该数自身），剩下的就是素数
+int countPrimes(int n) {
+    bool* p=malloc(sizeof(bool)*n);
+    memset(p,true,sizeof(bool)*n);
+    int sum=0,result=0;
+    for(int i=2;i<sqrt(n);i++)
+    {
+        sum=i;
+        while(sum<n)
+        {
+            sum+=i;
+            if(sum<n)
+                p[sum]=false;
+        }
+    }
+    for(int i=2;i<n;i++)
+    {
+        if(p[i]==true)
+            result++;
+    }
+    return result;
+}

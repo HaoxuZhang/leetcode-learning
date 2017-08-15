@@ -1,0 +1,29 @@
+Given two strings s and t, write a function to determine if t is an anagram of s.
+
+For example,
+s = "anagram", t = "nagaram", return true.
+s = "rat", t = "car", return false.
+
+Note:
+You may assume the string contains only lowercase alphabets.
+
+
+
+c:
+//设置两个数组来分别记录两个字符串中每个字符出现的次数，数组下标为字符的ascii码值，最后检查两个数组是否相同即可
+bool isAnagram(char* s, char* t) {
+    if(s==NULL&&t==NULL) return true;
+    if(strlen(s)!=strlen(t)) return false;
+    int ms[256]={0},mt[256]={0};
+    int i=0;
+    while(s[i]!='\0')
+    {
+        ms[s[i]]+=1;
+        mt[t[i]]+=1;
+        i++;
+    }
+    for(i=0;i<256;i++)
+        if(ms[i]!=mt[i])
+            return false;
+    return true;
+}

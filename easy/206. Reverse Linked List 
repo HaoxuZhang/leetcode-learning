@@ -1,0 +1,64 @@
+Reverse a singly linked list.
+
+click to show more hints.
+Hint:
+
+A linked list can be reversed either iteratively or recursively. Could you implement both?
+
+
+C:
+
+
+//iteration(迭代法)：
+//设置三个指针遍历整个链表
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* reverseList(struct ListNode* head) {
+    if(head==NULL) return NULL;
+    if(head->next==NULL) return head;
+    if(head->next->next==NULL)
+    {
+        struct ListNode* tmp=head->next;
+        head->next->next=head;
+        head->next=NULL;
+        return tmp;
+    }
+    struct ListNode *tmp1;
+    tmp1=head;
+    struct ListNode *tmp2;
+    tmp2=head->next;
+    struct ListNode *tmp3;
+    tmp3=head->next->next;
+    head->next=NULL;
+    while(tmp3)
+    {
+        tmp2->next=tmp1;
+        tmp1=tmp2;
+        tmp2=tmp3;
+        tmp3=tmp3->next;
+    }
+    tmp2->next=tmp1;
+    return tmp2;
+}
+
+//recursion（递归法）
+//指针end为最终翻转后的新链表头
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* reverseList(struct ListNode* head) {
+    if(head==NULL||head->next==NULL) return head;
+    struct ListNode* end=reverseList(head->next);
+    head->next->next=head;
+    head->next=NULL;
+    return end;
+}

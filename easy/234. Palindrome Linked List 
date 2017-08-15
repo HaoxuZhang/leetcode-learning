@@ -1,0 +1,37 @@
+Given a singly linked list, determine if it is a palindrome.
+
+c:
+//设置两个指针，一快一慢，快的每次走两步，慢的每次走一步，当快的遍历后，慢的会停在链表的中点出，在这个过程中，把慢指针所指向的值依次存入数组中。之后慢指针再从中点处遍历到链表结尾，每一步所指向的val都与数组中的值比较（数组要从后往前遍历），如果都相同说明是回文
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+bool isPalindrome(struct ListNode* head) {
+    if(head==NULL||head->next==NULL) return true;
+    struct ListNode *slow,*fast;
+    slow=head;
+    fast=head;
+    int i=0;
+    int* p=malloc(sizeof(int)*50000);
+    memset(p,0,sizeof(int)*50000);
+    while(fast&&fast->next)//遍历链表
+    {
+        p[i++]=slow->val;
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    i--;//最后循环停止时i是多加了一个1,所以要自减
+    if(fast!=NULL&&fast->next==NULL)//这种情况是由于链表长度为奇数所致，这时slow停在的位置是回文中点，不需要进行比较，所以slow再走一步
+        slow=slow->next;
+    while(slow)
+    {
+        if(slow->val!=p[i])
+            return false;
+        i--;
+        slow=slow->next;
+    }
+    return true;
+}

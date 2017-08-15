@@ -1,0 +1,29 @@
+ Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+
+For example,
+Given nums = [0, 1, 3] return 2.
+
+Note:
+Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity? 
+
+c:
+
+//先将数组排序，然后将数组下标与当前位置的数相比较，不一样就说明当前下标就是所却数字，如果从头到尾下标都等于下标上的数，说明缺少的是最后一位，它的值就是numsSize
+int missingNumber(int* nums, int numsSize) {
+    for(int i=0;i<numsSize-1;i++)
+    {
+        for(int j=i+1;j<numsSize;j++)
+        {
+            if(nums[i]>nums[j])
+            {
+                int tmp=nums[i];
+                nums[i]=nums[j];
+                nums[j]=tmp;
+            }
+        }
+    }
+    for(int i=0;i<numsSize;i++)
+        if(nums[i]!=i)
+            return i;
+    return numsSize;
+}
