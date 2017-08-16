@@ -1,0 +1,44 @@
+ Given two arrays, write a function to compute their intersection.
+
+Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].
+
+Note:
+
+    Each element in the result must be unique.
+    The result can be in any order.
+
+c:
+
+//遍历两个数组，如果有相同元素，就放入要返回的数组中，在放入之前，先确定该数组中是否已经存在了此元素
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int min(int i,int j){
+    if(i<=j) return i;
+    return j;
+}
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    int* p=malloc(sizeof(int)*min(nums1Size,nums2Size));
+    int dex=0;
+    bool flag;
+    for(int i=0;i<nums1Size;i++)//遍历两个数组
+        for(int j=0;j<nums2Size;j++)
+        {
+            flag=true;
+            if(nums1[i]==nums2[j])
+            {
+                for(int k=0;k<dex;k++)//检查数组中是否已经被放入了相同元素
+                    if(p[k]==nums1[i])
+                    {
+                        flag=false;
+                        break;
+                    }
+                if(flag==true)
+                    p[dex++]=nums1[i];
+            }
+        }
+    *returnSize=dex;
+    return p;
+}

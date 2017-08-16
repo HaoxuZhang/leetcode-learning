@@ -1,0 +1,20 @@
+Write a function that takes a string as input and returns the string reversed.
+
+Example:
+Given s = "hello", return "olleh". 
+
+c:
+
+//一个指数指向s的尾部，向前遍历，一个指数指向需要返回的p的首部，向后遍历，没走一步，赋值即可
+char* reverseString(char* s) {
+    int len=strlen(s);
+    int j=len-1;
+    int i;
+    char* p=malloc(sizeof(char)*len+1);
+    for(i=0;i<len;i++)
+    {
+        p[i]=s[j--];
+    }
+    p[i]='\0';//不要忘记在p的尾部加上终止符
+    return p;
+}
