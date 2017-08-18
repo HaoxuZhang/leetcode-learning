@@ -1,0 +1,76 @@
+Write a program that outputs the string representation of numbers from 1 to n.
+
+But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. For numbers which are multiples of both three and five output “FizzBuzz”.
+
+Example:
+
+n = 15,
+
+Return:
+[
+    "1",
+    "2",
+    "Fizz",
+    "4",
+    "Buzz",
+    "Fizz",
+    "7",
+    "8",
+    "Fizz",
+    "Buzz",
+    "11",
+    "Fizz",
+    "13",
+    "14",
+    "FizzBuzz"
+]
+
+
+c:
+
+//遍历，分类即可
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+char** fizzBuzz(int n, int* returnSize) {
+    *returnSize=n;
+    char** p=malloc(sizeof(char*)*n);
+    for(int i=1;i<=n;i++)
+    {
+        if(i%3==0&&i%5==0)
+        {
+            p[i-1]=malloc(sizeof(char)*8+1);
+            p[i-1]="FizzBuzz";
+        }
+        else if(i%3==0)
+        {
+            p[i-1]=malloc(sizeof(char)*4+1);
+            p[i-1]="Fizz";
+        }
+        else if(i%5==0)
+        {
+            p[i-1]=malloc(sizeof(char)*4+1);
+            p[i-1]="Buzz";
+        }
+        else
+        {
+            int num=i;
+            int len=0;
+            while(num) //用该循环确定num是几位数 len
+            {
+                len++;
+                num/=10;
+            }
+            p[i-1]=malloc(sizeof(char)*len+1);
+            p[i-1][len]='\0';
+            num=i; //num要被重新赋值以完成下列工作
+            for(int j=len-1;j>=0;j--) //将每位数字转换成字符
+            {
+                p[i-1][j]=num%10+'0';
+                num/=10;
+            }
+        }
+    }
+    return p;
+}

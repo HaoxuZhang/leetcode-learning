@@ -1,0 +1,30 @@
+Given a non-empty integer array of size n, find the minimum number of moves required to make all array elements equal, where a move is incrementing n - 1 elements by 1.
+
+Example:
+
+Input:
+[1,2,3]
+
+Output:
+3
+
+Explanation:
+Only three moves are needed (remember each move increments two elements):
+
+[1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]
+
+
+c:
+//题目要求每次是n-1个数加1,看需要几次才能使这n个数相等，即找出最大值，每次使其他n-1个数加一，这样最快。问题可以转化为：找出最小值，每次使一个数减1,由于数字之间的差值是相同的，所以次数也就一样了。那么只要找出这组数中的最小值，然后累加数组中的每个数与它的差值即可。
+int minMoves(int* nums, int numsSize) {
+    int min=INT_MAX;
+    for(int i=0;i<numsSize;i++)
+    {
+        if(nums[i]<min) min=nums[i];
+    }
+    int sum=0;
+        for(int i=0;i<numsSize;i++){
+            sum+=nums[i]-min;
+            }
+    return sum;
+}

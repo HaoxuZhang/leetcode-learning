@@ -1,0 +1,45 @@
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.
+
+Find all the elements of [1, n] inclusive that do not appear in this array.
+
+Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
+
+Example:
+
+Input:
+[4,3,2,7,8,2,3,1]
+
+Output:
+[5,6]
+
+
+
+c:
+
+//交换数组中的元素使每个元素被放置到正确的位置，例如7应放置到7-1=6的下标位置（下标从0开始），然后在检查下标与下标上的元素是否是nums[i]=i+1的关系，如果不是，说明缺少了i+1
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+void swap(int* a,int* b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+int* findDisappearedNumbers(int* nums, int numsSize, int* returnSize) {
+    int* p=malloc(sizeof(int)*numsSize);
+    for(int i=0;i<numsSize;i++){
+        while(nums[i]!=i+1&&nums[i]!=nums[nums[i]-1])
+            swap(&nums[i],&nums[nums[i]-1]);
+    }
+    *returnSize=0;
+    for(int i=0;i<numsSize;i++)
+    {
+        if(nums[i]!=i+1)
+        {
+            p[*returnSize]=i+1;
+            (*returnSize)++;
+        }
+    }
+    return p;
+}

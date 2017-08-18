@@ -1,0 +1,27 @@
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
+
+Please note that the string does not contain any non-printable characters.
+
+Example:
+
+Input: "Hello, my name is John"
+Output: 5
+
+
+c:
+
+//遍历即可，要注意所有的情况
+
+int countSegments(char* s) {
+    int sum=0;
+    int len=strlen(s);
+    if(len==0) return 0;//如果没有输入，返回0
+    int i=1;
+    for(i=1;i<len;i++)//如果当前是空格而前一位不是空格，说明形成了一个段落，但这种情况没有考虑最后一位不是空格的问题
+    {
+        if(s[i]==' '&&s[i-1]!=' ')
+            sum++;
+    }
+    if(s[len-1]!=' ') sum++;//如果最后一位不是空格，说明之前的方法会少加了一段，因此sum再加一
+    return sum;
+}

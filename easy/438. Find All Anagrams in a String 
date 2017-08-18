@@ -1,0 +1,72 @@
+Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
+
+Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
+
+The order of output does not matter.
+
+Example 1:
+
+Input:
+s: "cbaebabacd" p: "abc"
+
+Output:
+[0, 6]
+
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+
+Example 2:
+
+Input:
+s: "abab" p: "ab"
+
+Output:
+[0, 1, 2]
+
+Explanation:
+The substring with start index = 0 is "ab", which is an anagram of "ab".
+The substring with start index = 1 is "ba", which is an anagram of "ab".
+The substring with start index = 2 is "ab", which is an anagram of "ab".
+
+c:
+
+
+//时间超时了，但我认为程序无误，用的C语言无法用哈希表
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* findAnagrams(char* s, char* p, int* returnSize) {
+    int len1=strlen(s);
+    int len2=strlen(p);
+    int* returnArray=malloc(sizeof(int)*(len1-len2));
+    int num=0;
+    int m1[256]={0},m2[256]={0};
+    if(len1<len2) return NULL;
+    for(int i=0;i<=len1-len2;i++)
+    {
+        bool flag=true;
+        for(int k=i;k<i+len2;k++)
+        {
+            m1[s[k]]+=1;
+        }
+        for(int j=0;j<len2;j++)
+            m2[p[j]]+=1;
+        for(int m=0;m<len2;m++)
+        {
+            if(m1[p[m]]!=m2[p[m]])
+                flag=false;
+        }
+        for(int k=i;k<i+len2;k++)
+        {
+            m1[s[k]]=0;
+        }
+        for(int j=0;j<len2;j++)
+            m2[p[j]]=0;
+        if(flag==true)
+            returnArray[num++]=i;
+    }
+    *returnSize=num;
+    return returnArray;
+}

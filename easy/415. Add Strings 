@@ -1,0 +1,57 @@
+Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2.
+
+Note:
+
+    The length of both num1 and num2 is < 5100.
+    Both num1 and num2 contains only digits 0-9.
+    Both num1 and num2 does not contain any leading zero.
+    You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+
+c:
+
+//与之前做过的一道题目类似，字符转化乘整型，设置进位和该位的数字，一步一步来即可
+int max(int i,int j){
+    if(i>j) return i;
+    return j;
+}
+char* addStrings(char* num1, char* num2) {
+    int len1=strlen(num1),len2=strlen(num2);
+    int len=max(len1,len2);
+    char* p=malloc(sizeof(char)*len+2);
+    memset(p,'\0',sizeof(char)*len+2);
+    int flag1=len1-1,flag2=len2-1;
+    int carry=0;//进位
+    int dex;//当前位上的数字
+    int i=len;
+        while(flag1>=0&&flag2>=0)
+        {
+            dex=(num1[flag1]-'0'+num2[flag2]-'0'+carry)%10;
+            carry=(num1[flag1--]-'0'+num2[flag2--]-'0'+carry)/10;
+            p[i--]=dex+'0';
+        }
+    if(flag1>=0)//说明len1长
+    {
+        for(;i>0;i--)
+        {
+            dex=(num1[flag1]-'0'+carry)%10;
+            carry=(num1[flag1--]-'0'+carry)/10;
+            p[i]=dex+'0';
+        }
+    }
+    else if(flag2>=0)//说明len2长
+    {
+        for(;i>0;i--)
+        {
+            dex=(num2[flag2]-'0'+carry)%10;
+            carry=(num2[flag2--]-'0'+carry)/10;
+            p[i]=dex+'0';
+        }
+    }
+    if(carry==1)//如果最后进位为1,则将p数组的首位放置字符‘1’
+    {
+        p[0]='1';
+        return p;
+    }
+    return p+1;//否则返回p+1，即跳过p的首位
+}

@@ -1,0 +1,53 @@
+Given a string which consists of lowercase or uppercase letters, find the length of the longest palindromes that can be built with those letters.
+
+This is case sensitive, for example "Aa" is not considered a palindrome here.
+
+Note:
+Assume the length of given string will not exceed 1,010.
+
+Example:
+
+Input:
+"abccccdd"
+
+Output:
+7
+
+Explanation:
+One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+
+c:
+//现将整个数组排序，然后依次遍历，看相同的字符出现几次，如果出现偶数次，那就可以被用做回文字符，如果是奇数次，如果等于1,就不行，如果大于1,则可以被用作n-1个回文字符
+int longestPalindrome(char* s) {
+    int len=strlen(s);
+    for(int i=0;i<len-1;i++)
+        for(int j=i+1;j<len;j++)
+            if(s[i]>s[j])
+            {
+                char tmp=s[i];
+                s[i]=s[j];
+                s[j]=tmp;
+            }
+    int sum=0;
+    int num=0;
+    for(int i=0;i<len;i+=num)
+    {
+        num=0;
+        for(int j=i;j<len;j++)
+        {
+            if(s[i]==s[j])
+                num++;
+            else break;
+        }
+        if(num%2==0)//出现的是偶数
+            sum+=num;
+        else//出现奇数次
+        {
+            if(num>1)
+                sum+=num-1;
+        }
+    }
+    if(sum==len) return sum;//全是偶数的情况
+    return sum+1;//存在奇数的情况，那么回文串最中间可以被放入一个，所以加一
+}

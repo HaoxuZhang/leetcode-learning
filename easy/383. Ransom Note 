@@ -1,0 +1,50 @@
+iven an arbitrary ransom note string and another string containing letters from all the magazines, write a function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will return false.
+
+Each letter in the magazine string can only be used once in your ransom note.
+
+Note:
+You may assume that both strings contain only lowercase letters.
+
+canConstruct("a", "b") -> false
+canConstruct("aa", "ab") -> false
+canConstruct("aa", "aab") -> true
+
+
+c:
+//超出了时间限制
+bool canConstruct(char* ransomNote, char* magazine) {
+    int m1[123];
+    int m2[123];
+    int i=0;
+    while(ransomNote[i]!='\0')
+        m1[ransomNote[i]]+=1;
+    i=0;
+    while(magazine[i]!='\0')
+        m2[magazine[i]]+=1;
+    for(i=0;i<123;i++)
+        if(m1[i]>m2[i])
+            return false;
+    return true;
+}
+
+
+//用两次遍历就不回超时
+bool canConstruct(char* ransomNote, char* magazine) {
+    int len1=strlen(ransomNote);
+    int len2=strlen(magazine);
+    for(int i=0;i<len1;i++)
+    {
+        bool flag=false;
+        for(int j=0;j<len2;j++)
+        {
+            if(ransomNote[i]==magazine[j])
+            {
+                magazine[j]-=32;//magazine中的这个元素已经被用了，所以将它换成大写字母，不能在被用了
+                flag=true;
+                break;
+            }
+        }
+        if(flag==false) return false;
+    }
+    return true;
+}

@@ -1,0 +1,29 @@
+ Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+Examples:
+
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+
+
+c:
+
+//遍历整个数组，用num记录当前元素出现次数，如果num==1,说明与它重复的元素只有它自己，则返回i
+int firstUniqChar(char* s) {
+    int len=strlen(s);
+    for(int i=0;i<len;i++)
+    {
+        int num=0;
+        for(int j=0;j<len;j++)
+        {
+            if(num==2) break;//加入这句是为了节省时间，如果已经出现相同元素了，就停止循环
+            if(s[i]==s[j]) num++;
+        }
+        if(num==1)
+            return i;
+    }
+    return -1;
+}
