@@ -1,0 +1,43 @@
+Given an integer, return its base 7 string representation.
+
+Example 1:
+
+Input: 100
+Output: "202"
+
+Example 2:
+
+Input: -7
+Output: "-10"
+
+Note: The input will be in range of [-1e7, 1e7]. 
+
+c:
+//不断对num取7余，如果是负数要在最后加上符号，最后将整个字符串反转
+void swap(char* p1,char* p2){
+    char tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+void reverse(char* s){
+    int len=strlen(s);
+    int left=0,right=len-1;
+    while(left<right)
+    {
+        swap(&(s[left++]),&(s[right--]));
+    }
+}
+char* convertToBase7(int num) {
+    char* p=malloc(sizeof(char)*100);
+    int i=0;
+    if(num==0) p="0";
+    int tmp=abs(num);
+    while(tmp)
+    {
+        p[i++]='0'+tmp%7;
+        tmp/=7;
+    }
+    if(num<0) p[i]='-';
+    reverse(p);
+    return p;
+}

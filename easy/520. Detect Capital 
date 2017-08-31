@@ -1,0 +1,53 @@
+ Given a word, you need to judge whether the usage of capitals in it is right or not.
+
+We define the usage of capitals in a word to be right when one of the following cases holds:
+
+    All letters in this word are capitals, like "USA".
+    All letters in this word are not capitals, like "leetcode".
+    Only the first letter in this word is capital if it has more than one letter, like "Google".
+
+Otherwise, we define that this word doesn't use capitals in a right way.
+
+Example 1:
+
+Input: "USA"
+Output: True
+
+Example 2:
+
+Input: "FlaG"
+Output: False
+
+Note: The input will be a non-empty word consisting of uppercase and lowercase latin letters. 
+
+c:
+//列举所有情况即可,分为3中情况：1.首字母大写后面小写 2.首字母大写后面大写 3.首字母小写后面小写
+bool detectCapitalUse(char* word) {
+    int len=strlen(word);
+    if(len==0) return false;
+    if(len==1) return true;
+    if(word[0]<='Z'&&word[0]>='A')
+    {
+        if(word[1]<='Z'&&word[1]>='A')
+        {
+            for(int i=2;i<len;i++)
+                if(word[i]<='z'&&word[i]>='a')
+                    return false;
+        }
+        if(word[1]<='z'&&word[1]>='a')
+        {
+            for(int i=2;i<len;i++)
+                if(word[i]<='Z'&&word[i]>='A')
+                    return false;
+        }
+    }
+    if(word[0]<='z'&&word[0]>='a')
+    {
+        for(int i=1;i<len;i++)
+        {
+            if(word[i]<='Z'&&word[i]>='A')
+                return false;
+        }
+    }
+    return true;
+}

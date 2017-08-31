@@ -1,0 +1,38 @@
+You are given a string representing an attendance record for a student. The record only contains the following three characters:
+
+    'A' : Absent.
+    'L' : Late.
+    'P' : Present.
+
+A student could be rewarded if his attendance record doesn't contain more than one 'A' (absent) or more than two continuous 'L' (late).
+
+You need to return whether the student could be rewarded according to his attendance record.
+
+Example 1:
+
+Input: "PPALLP"
+Output: True
+
+Example 2:
+
+Input: "PPALLL"
+Output: False
+
+c:
+//设置两个计数器numA和numL，出现A则使numA加1,当计数器值大于1说明不能被奖励，出现L使numL加1,出现非L的字符则将numL归零。这样就可以判断连续出现了几次。当numL大于2时，不能被奖励。
+bool checkRecord(char* s) {
+    int len=strlen(s);
+    int numA=0,numL=0;
+    for(int i=0;i<len;i++)
+    {
+        if(s[i]=='L') numL++;
+        else
+        {
+            numL=0;
+            if(s[i]=='A') numA++;
+        }
+        if(numA>1||numL>2)
+            return false;
+    }
+    return true;
+}

@@ -1,0 +1,35 @@
+Given a string and an integer k, you need to reverse the first k characters for every 2k characters counting from the start of the string. If there are less than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original.
+
+Example:
+
+Input: s = "abcdefg", k = 2
+Output: "bacdfeg"
+
+Restrictions:
+
+    The string consists of lower English letters only.
+    Length of the given string and k will in the range [1, 10000]
+
+c:
+//设置两个下标left和right分别进行翻转，完成一小段的翻转后left和right同时自加2k，去完成下一段的翻转，当left还在字符串内而right已经越界时，要将right指向最后一个数的下标
+void swap(char* i,char* j){
+    char tmp=*i;
+    *i=*j;
+    *j=tmp;
+}
+char* reverseStr(char* s, int k) {
+    int len=strlen(s);
+    int left=0,right=((k>len)?len-1:k-1);
+    while(left<=len-1)
+    {
+        if(right>len-1) right=len-1;
+        int tmpLeft=left,tmpRight=right;
+        while(tmpLeft<tmpRight)
+        {
+            swap(&s[tmpLeft++],&s[tmpRight--]);
+        }
+        left+=2*k;
+        right+=2*k;
+    }
+    return s;
+}

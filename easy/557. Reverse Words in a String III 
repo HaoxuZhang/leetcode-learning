@@ -1,0 +1,33 @@
+Given a string, you need to reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+Example 1:
+
+Input: "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+
+Note: In the string, each word is separated by single space and there will not be any extra space in the string. 
+
+c:
+//由于字符串没有多余的空格，较好处理，设置两个下标，以空格或结束符来寻找一个单词，使得left指向单词首，right指向单词尾的后一个，再对这个单词进行翻转，依次循环，每次处理完一个单词，将left指向right的后面，即下一个单词的首。当left下标>=len时，说明到了整个句子结尾，终止循环
+void swap(char* i,char* j){
+    char tmp=*i;
+    *i=*j;
+    *j=tmp;
+}
+char* reverseWords(char* s) {
+    int left=0,right=0;
+    int len=strlen(s);
+    while(left<len)
+    {
+        while(s[right]!=' '&&s[right]!='\0')
+        {
+            right++;
+        }
+        int tmpLeft=left,tmpRight=right-1;
+        while(tmpLeft<tmpRight)
+            swap(&s[tmpLeft++],&s[tmpRight--]);
+        left=right+1;
+        right=left;
+    }
+    return s;
+}

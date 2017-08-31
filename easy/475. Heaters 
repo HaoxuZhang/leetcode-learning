@@ -1,0 +1,44 @@
+Winter is coming! Your first job during the contest is to design a standard heater with fixed warm radius to warm all the houses.
+
+Now, you are given positions of houses and heaters on a horizontal line, find out minimum radius of heaters so that all houses could be covered by those heaters.
+
+So, your input will be the positions of houses and heaters seperately, and your expected output will be the minimum radius standard of heaters.
+
+Note:
+
+    Numbers of houses and heaters you are given are non-negative and will not exceed 25000.
+    Positions of houses and heaters you are given are non-negative and will not exceed 10^9.
+    As long as a house is in the heaters' warm radius range, it can be warmed.
+    All the heaters follow your radius standard and the warm radius will the same.
+
+
+c:
+//先排序，然后依次判断houses中的元素与heaters的最近那个个元素的最近距离。最后求出这些距离的最大值即可
+void swap(int* i,int* j){
+    int tmp=*i;
+    *i=*j;
+    *j=tmp;
+}
+int max(int i,int j){
+    if(i>j) return i;
+    return j;
+}
+int findRadius(int* houses, int housesSize, int* heaters, int heatersSize) {
+    for(int i=0;i<housesSize-1;i++)
+        for(int j=i+1;j<housesSize;j++)
+            if(houses[i]>houses[j])
+                swap(&(houses[i]),&(houses[j]));
+    for(int i=0;i<heatersSize-1;i++)
+        for(int j=i+1;j<heatersSize;j++)
+            if(heaters[i]>heaters[j])
+                swap(&(heaters[i]),&(heaters[j]));
+    int minimum=0;
+    int j=0;
+    for(int i=0;i<housesSize;i++)
+    {
+        while(j<heatersSize-1&&abs(heaters[j]-houses[i])>=abs(heaters[j+1]-houses[i]))
+            j++;
+        minimum=max(minimum,abs(heaters[j]-houses[i]));
+    }
+    return minimum;
+}

@@ -1,0 +1,30 @@
+ Given a group of two strings, you need to find the longest uncommon subsequence of this group of two strings. The longest uncommon subsequence is defined as the longest subsequence of one of these strings and this subsequence should not be any subsequence of the other strings.
+
+A subsequence is a sequence that can be derived from one sequence by deleting some characters without changing the order of the remaining elements. Trivially, any string is a subsequence of itself and an empty string is a subsequence of any string.
+
+The input will be two strings, and the output needs to be the length of the longest uncommon subsequence. If the longest uncommon subsequence doesn't exist, return -1.
+
+Example 1:
+
+Input: "aba", "cdc"
+Output: 3
+Explanation: The longest uncommon subsequence is "aba" (or "cdc"), 
+because "aba" is a subsequence of "aba", 
+but not a subsequence of any other strings in the group of two strings. 
+
+c:
+//只要一个字符串的子串不是另一个字符串的子串即可，因此分为几种情况。1.当两个字符串长度不相等时，最长非共同子串一定是长度大的那个字符串，则返回值为较长字符串的长度;2.当两个字符串长度相等时，如果字符串内容也想等，则没有最长非共同子串，返回-1。，如果字符串内容不相等，那么这两个字符串的是最长非共同子串，则返回长度即可
+int findLUSlength(char* a, char* b) {
+    int lenA=strlen(a);
+    int lenB=strlen(b);
+    if(lenA==lenB)
+    {
+        for(int i=0;i<lenA;i++)
+        {
+            if(a[i]!=b[i])
+                return lenA;
+        }
+        return -1;
+    }
+    return lenA>lenB?lenA:lenB;
+}

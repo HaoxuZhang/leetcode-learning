@@ -1,0 +1,46 @@
+Find the largest palindrome made from the product of two n-digit numbers.
+
+Since the result could be very large, you should return the largest palindrome mod 1337.
+
+Example:
+
+Input: 2
+
+Output: 987
+
+Explanation: 99 x 91 = 9009, 9009 % 1337 = 987
+
+Note:
+
+The range of n is [1,8].
+
+c:
+//我只能想到遍历的方法，但是这个方法超时了
+int reverse(int n){
+    int result=0;
+    while(n)
+    {
+        int dex=n%10;
+        result=result*10+dex;
+        n/=10;
+    }
+    return result;
+}
+bool isPal(int n){
+    if(n==reverse(n)) return true;
+    return false;
+}
+int largestPalindrome(int n) {
+    int max=0;
+    for(int i=pow(10,n)-1;i>=pow(10,n-1);i--)
+    {
+        for(int j=pow(10,n)-1;j>=i;j--)
+        {
+            int result=i*j;
+            if(isPal(result)){
+                if(result>max) max=result;
+            }
+        }
+    }
+    return max%1337;
+}
