@@ -1,0 +1,27 @@
+Given a positive integer, return its corresponding column title as appear in an Excel sheet.
+
+For example:
+
+    1 -> A
+    2 -> B
+    3 -> C
+    ...
+    26 -> Z
+    27 -> AA
+    28 -> AB 
+
+c++:
+//其实就是将十进制转换为十六进制，但要注意下标是从0开始，而题目是从1开始，所以要减1。想一下对十进制转换为二进制的过程，就是不断用2对其取余，新得到的余数放置在前面。
+class Solution {
+public:
+    string convertToTitle(int n) {
+        string ret = "";
+        while(n)
+        {
+            ret = (char)((n-1)%26+'A') + ret;
+            n = (n-1)/26;
+        }
+        return ret;
+        
+    }
+};

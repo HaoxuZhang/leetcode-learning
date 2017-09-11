@@ -6,24 +6,29 @@ Credits:
 Special thanks to @ts for adding this problem and creating all test cases.
 
 
-C:
-
-//这个方法超时了，其他方法我还不明白
-int majorityElement(int* nums, int numsSize) {
-    int i,j;
-    if(numsSize==1)
-        return nums[0];
-    for(i=0;i<numsSize-1;i++)
-    {
-        for(j=i+1;j<numsSize;j++)
-        {
-            if(nums[i]>nums[j])
-            {
-                int tmp=nums[i];
-                nums[i]=nums[j];
-                nums[j]=tmp;
+C++:
+//用sort排序后，看每个元素的出现次数
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<int>::iterator p;
+        int count=0;
+        for(p=nums.begin();p!=nums.end();p+=count){
+            count=0;
+            vector<int>::iterator left,right;
+            left=p;
+            right=p;
+            while(*right==*left&&right!=nums.end()){
+                count++;
+                right++;
+            }
+            if(count>nums.size()/2){
+                return *p;
+                break;
             }
         }
+        return 0;
     }
-    return nums[numsSize/2];
-}
+};
+

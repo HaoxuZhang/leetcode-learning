@@ -1,0 +1,28 @@
+Write a function to find the longest common prefix string amongst an array of strings. 
+
+c++:
+
+//题目要求求出一堆字符串的最长共同前缀，以第一个字符串为基准，与其他字符出依次比较，每次比较后更新res的结果
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        int n=strs.size();
+        string res;
+        if(n==0) return res;
+        res=strs[0];
+        for(int i=1;i<n;i++){
+            bool flag=true;//设置flag的目的是判断下面的循环是由于读到了不同字符而中断还是没有中断
+            int j=0;
+            int len=min(res.size(),strs[i].size());
+            for(j=0;j<len;j++){
+                if(res[j]!=strs[i][j]){
+                    res=strs[i].substr(0,j);
+                    break;
+                    flag=false;
+                }
+            }
+            if(flag==true) res=strs[i].substr(0,j);//若直到最后都没有不同字符，更新res，此时j的值正好可以更新res
+        }
+        return res;
+    }
+};
