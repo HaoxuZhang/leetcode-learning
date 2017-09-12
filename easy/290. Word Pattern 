@@ -1,0 +1,54 @@
+Given a pattern and a string str, find if str follows the same pattern.
+
+Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.
+
+Examples:
+
+    pattern = "abba", str = "dog cat cat dog" should return true.
+    pattern = "abba", str = "dog cat cat fish" should return false.
+    pattern = "aaaa", str = "dog cat cat dog" should return false.
+    pattern = "abba", str = "dog dog dog dog" should return false.
+
+Notes:
+You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space. 
+
+c++:
+//先判断pattern中的字符个数和str中的单词数是否相同，若不同直接返回false，如果相同继续。依次将str中的单词取出，设置两个map，第一个map的first是pattern中的字符，second是str中的字符串;第二个map的first是str中的字符串，second是pattern中的字符。这样形成一一对应关系。在要放入两个map之前，先判断map中是否已经存在了第一个元素，如果存在了，检查一下第二个元素是不是跟现在的第二元素相同，如果不相同，直接返回false，两个map都要检查。如果都相同了，就不放入了，继续下一个循环。如果两个map中都没有，则放入两个map中
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        typedef unordered_map<char,string> myType;
+        myType myMap1;
+        typedef unordered_map<string,char> m2;
+        m2 myMap2;
+        int len=str.size();
+        int num=0;
+        for(int i=0;i<len;i++){
+            if(str[i]==' ') num++;
+        }
+        if(pattern.size()!=num+1) return false;//判断个数是否相同，不同直接返回false
+        int count;
+        int j=0;
+        for(int i=0;i<len;i+=count+1){ //依次从str中取出单词
+            int left=i,right=i;
+            count=0;
+            while(str[right]!=' '&&str[right]!='\0'){
+                right++;
+                count++;
+            }
+            string tmp=str.substr(left,count);//用tmp记录当前取出的单词
+            if(myMap1.count(pattern[j])>0){ //判断字符是否已经存在
+                if(myMap1[pattern[j]]!=tmp) return false;
+            }
+            else if(myMap2.count(tmp)>0){ //判断单词是否已经存在
+                if(myMap2[tmp]!=pattern[j]) return false;
+            }
+            else{ //若都不存在，则将这组pair存入两个map中
+            myMap1.insert(make_pair(pattern[j],tmp));
+            myMap2.insert(make_pair(tmp,pattern[j]));
+            }
+            j++;
+        }
+        return true;
+    }
+};

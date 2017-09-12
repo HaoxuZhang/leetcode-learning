@@ -1,0 +1,23 @@
+Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k. 
+
+c++:
+//本题用了unordered_map,是C++11的新特性，与map相同，只不过不自动排序。将vector中的每一个数字的值作为pair的first，下标作为second，依次将vector中的元素放入map中，如果map里已经有了该元素，则比较下标的绝对值差是否小于等于k，若满足直接返回true，若不满足则令map中这个元素的second值（也就是下标）改为i，因为再往后i只可能越来越大，如果现在的i的差值大于k，后面的必将大于k，所以要更新下标
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        typedef unordered_map<int,int> uMap;
+        uMap myMap;
+        int len=nums.size();
+        for(int i=0;i<len;i++){
+            if(myMap.count(nums[i])>0){
+                if(i-myMap[nums[i]]<=k)
+                    return true;
+                else
+                    myMap[nums[i]]=i;
+            }
+            else 
+                myMap.insert(make_pair(nums[i],i));
+        }
+        return false;
+    }
+};
