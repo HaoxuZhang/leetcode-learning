@@ -29,44 +29,31 @@ The substring with start index = 0 is "ab", which is an anagram of "ab".
 The substring with start index = 1 is "ba", which is an anagram of "ab".
 The substring with start index = 2 is "ab", which is an anagram of "ab".
 
-c:
-
-
-//时间超时了，但我认为程序无误，用的C语言无法用哈希表
-/**
- * Return an array of size *returnSize.
- * Note: The returned array must be malloced, assume caller calls free().
- */
-int* findAnagrams(char* s, char* p, int* returnSize) {
-    int len1=strlen(s);
-    int len2=strlen(p);
-    int* returnArray=malloc(sizeof(int)*(len1-len2));
-    int num=0;
-    int m1[256]={0},m2[256]={0};
-    if(len1<len2) return NULL;
-    for(int i=0;i<=len1-len2;i++)
-    {
-        bool flag=true;
-        for(int k=i;k<i+len2;k++)
-        {
-            m1[s[k]]+=1;
+c++:
+//先统计p字符串中每个字符出现的次数，然后在s中以p的长度位长度，不断循环判断是否出现次数相同。如果出现次数不同，终止循环。
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int lens=s.size(),lenp=p.size();
+        vector<int> res;
+        vector<int> cnt(128,0);
+        for(int i=0;i<lenp;i++){
+            cnt[p[i]]++;
         }
-        for(int j=0;j<len2;j++)
-            m2[p[j]]+=1;
-        for(int m=0;m<len2;m++)
-        {
-            if(m1[p[m]]!=m2[p[m]])
-                flag=false;
+        int i=0;
+        while(i<=lens-lenp){
+            bool flag=true;
+            vector<int> tmp=cnt;
+            for(int j=i;j<i+lenp;j++){
+                if(--tmp[s[j]]<0){
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag==true)
+                res.push_back(i);
+            i++;
         }
-        for(int k=i;k<i+len2;k++)
-        {
-            m1[s[k]]=0;
-        }
-        for(int j=0;j<len2;j++)
-            m2[p[j]]=0;
-        if(flag==true)
-            returnArray[num++]=i;
+        return res;
     }
-    *returnSize=num;
-    return returnArray;
-}
+};

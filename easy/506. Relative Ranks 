@@ -1,0 +1,36 @@
+ Given scores of N athletes, find their relative ranks and the people with the top three highest scores, who will be awarded medals: "Gold Medal", "Silver Medal" and "Bronze Medal".
+
+Example 1:
+
+Input: [5, 4, 3, 2, 1]
+Output: ["Gold Medal", "Silver Medal", "Bronze Medal", "4", "5"]
+Explanation: The first three athletes got the top three highest scores, so they got "Gold Medal", "Silver Medal" and "Bronze Medal". 
+For the left two athletes, you just need to output their relative ranks according to their scores.
+
+c++:
+//设置一个priority_queue，放入以输入数组元素值为first,以元素的下标位second的pair对象。这样元素大的在最上方，全部放入后，依次取出，则是由大到小的顺序取出来
+class Solution {
+public:
+    vector<string> findRelativeRanks(vector<int>& nums) {
+        vector<string> res(nums.size());
+        priority_queue<pair<int,int>> pq;
+        for(int i=0;i<nums.size();i++){
+            pq.push(make_pair(nums[i],i));
+        }
+        int count=1;
+        while(!pq.empty()){
+            pair<int,int> tmp=pq.top();
+            pq.pop();
+            if(count==1)
+               res[tmp.second]="Gold Medal";
+            else if(count==2)
+                res[tmp.second]="Silver Medal";
+            else if(count==3)
+                res[tmp.second]="Bronze Medal";
+            else
+                res[tmp.second]=to_string(count);
+            count++;
+        }
+        return res;
+    }
+};

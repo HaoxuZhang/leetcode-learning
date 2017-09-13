@@ -1,0 +1,69 @@
+Given n points in the plane that are all pairwise distinct, a "boomerang" is a tuple of points (i, j, k) such that the distance between i and j equals the distance between i and k (the order of the tuple matters).
+
+Find the number of boomerangs. You may assume that n will be at most 500 and coordinates of points are all in the range [-10000, 10000] (inclusive).
+
+Example:
+
+Input:
+[[0,0],[1,0],[2,0]]
+
+Output:
+2
+
+Explanation:
+The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
+
+c++:
+//其实找的是一个点与多少个点距离相同，在这些距离相同的点中，要取两个点，并且是有顺序的，假设一个点与n个点的距离相同，那么其实就是A(n,2)种取法。所以只要依次记录每个点与其他点距离相同的次数，每个有A(n,2)种，所以加起来即可。
+//我的方法是把每个点到每个点的距离全都遍历一遍，在处理当前点的时候，要先检查该点到其他点的距离是否已经被访问过了，需要用一个set数组来记录。但是这种方法太麻烦，时间上也因为超时没通过
+class Solution {
+public:
+    int squareDistance(pair<int,int> a,pair<int,int> b){
+        int result=pow(a.first-b.first,2)+pow(a.second-b.second,2);
+        return result;
+    }
+    int numberOfBoomerangs(vector<pair<int, int>>& points) {
+        int len=points.size();
+        int sum=0;
+        unordered_set<int> st;
+        for(int i=0;i<len;i++){
+            st.clear();
+            for(int j=0;j<len;j++){
+                int tmpNum=0;
+                int tmpDis=squareDistance(points[i],points[j]);
+                if(st.count(tmpDis)>0) continue;
+                st.insert(tmpDis);
+                for(int k=0;k<len;k++){
+                    if(squareDistance(points[i],points[k])==tmpDis) tmpNum++;
+                }
+                sum+=tmpNum*(tmpNum-1);
+            }
+        }
+        return sum;
+    }
+};
+
+
+//别人的方法，设置一个map，first值为距离，second值为该距离出现的次数。这样，对每个点都设置一个空的map，计算该点与其他的点的距离并将信息放入map，然后依次求出map中每个元素second值就是该点与其他点距离相同的次数。
+class Solution {
+public:
+    int numberOfBoomerangs(vector<pair<int, int>>& points) {
+        unordered_map<int,int> mp;
+        int len=points.size();
+        int res=0;
+        for(int i=0;i<len;i++){
+            for(int j=0;j<len;j++){
+                int x=points[i].first-points[j].first;
+                int y=points[i].second-points[j].second;
+                mp[x*x+y*y]++;
+            }
+            unordered_map<int,int>::iterator p;
+            for(p=mp.begin();p!=mp.end();p++){
+                int tmp=p->second;
+                res+=tmp*(tmp-1);
+            }
+            mp.clear();
+        }
+        return res;
+    }
+};
