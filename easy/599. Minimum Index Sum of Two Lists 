@@ -1,0 +1,71 @@
+ Suppose Andy and Doris want to choose a restaurant for dinner, and they both have a list of favorite restaurants represented by strings.
+
+You need to help them find out their common interest with the least list index sum. If there is a choice tie between answers, output all of them with no order requirement. You could assume there always exists an answer.
+
+Example 1:
+
+Input:
+["Shogun", "Tapioca Express", "Burger King", "KFC"]
+["Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun"]
+Output: ["Shogun"]
+Explanation: The only restaurant they both like is "Shogun".
+
+Example 2:
+
+Input:
+["Shogun", "Tapioca Express", "Burger King", "KFC"]
+["KFC", "Shogun", "Burger King"]
+Output: ["Shogun"]
+Explanation: The restaurant they both like and have the least index sum is "Shogun" with index sum 1 (0+1).
+
+Note:
+
+    The length of both lists will be in the range of [1, 1000].
+    The length of strings in both lists will be in the range of [1, 30].
+    The index is starting from 0 to the list length minus 1.
+    No duplicates in both lists.
+
+c++:
+//先判断有哪些字符串在两个字符串数组中都出现过，然后将都出现过的字符串放入一个map中，key值为字符串，value值为下标之和。然后找出下标和最小的字符串，要注意返回的有可能不是一个字符串
+class Solution {
+public:
+    vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
+        map<string,int> mp;
+        int len1=list1.size();
+        int len2=list2.size();
+        vector<bool> flag1(len1,false);
+        vector<bool> flag2(len2,false);
+//用bool数组记录两个字符串数组中哪个位置的元素在两个数组中都共同出现过
+        for(int i=0;i<len1;i++)
+            for(int j=0;j<len2;j++){
+                if(list1[i]==list2[j]){
+                    flag1[i]=true;
+                    break;
+                }
+            }
+        for(int i=0;i<len2;i++)
+            for(int j=0;j<len1;j++){
+                if(list2[i]==list1[j]){
+                    flag2[i]=true;
+                    break;
+                }
+            }
+//将两个数组中共同出现过的元素放入map中，并且累计下标
+        for(int i=0;i<len1;i++){
+            if(flag1[i]==true) mp[list1[i]]+=i;//这个if用来判断当前读取的字符串是否在两个数组中都出现过
+        }
+        for(int i=0;i<len2;i++){
+            if(flag2[i]==true) mp[list2[i]]+=i;
+        }
+        map<string,int>::iterator p,tmp;
+        tmp=mp.begin();
+        for(p=mp.begin();p!=mp.end();p++){
+            if(p->second<tmp->second) tmp=p;
+        }
+        vector<string> res;
+        for(p=mp.begin();p!=mp.end();p++){
+            if(p->second==tmp->second) res.push_back(p->first);
+        }
+        return res;
+    }
+};
