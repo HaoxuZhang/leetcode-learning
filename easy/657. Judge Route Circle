@@ -1,0 +1,30 @@
+ Initially, there is a Robot at position (0, 0). Given a sequence of its moves, judge if this robot makes a circle, which means it moves back to the original place.
+
+The move sequence is represented by a string. And each move is represent by a character. The valid robot moves are R (Right), L (Left), U (Up) and D (down). The output should be true or false representing whether the robot makes a circle.
+
+Example 1:
+
+Input: "UD"
+Output: true
+
+Example 2:
+
+Input: "LL"
+Output: false
+
+c++:
+//只要分别判断左和右的数量是否相等。上和下的数量是否相等即可。只要这两对相等，说明一定会回到原点。
+class Solution {
+public:
+    bool judgeCircle(string moves) {
+        int l=0,r=0,u=0,d=0;
+        for(int i=0;i<moves.size();i++){
+            if(moves[i]=='L') l++;
+            else if(moves[i]=='R') r++;
+            else if(moves[i]=='U') u++;
+            else if(moves[i]=='D') d++;
+        }
+        if(l==r&&u==d) return true;
+        return false;
+    }
+};

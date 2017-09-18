@@ -1,0 +1,38 @@
+ Given an unsorted array of integers, find the length of longest continuous increasing subsequence.
+
+Example 1:
+
+Input: [1,3,5,4,7]
+Output: 3
+Explanation: The longest continuous increasing subsequence is [1,3,5], its length is 3. 
+Even though [1,3,5,7] is also an increasing subsequence, it's not a continuous one where 5 and 7 are separated by 4. 
+
+Example 2:
+
+Input: [2,2,2,2,2]
+Output: 1
+Explanation: The longest continuous increasing subsequence is [2], its length is 1. 
+
+Note: Length of the array will not exceed 10,000. 
+
+c++:
+//从下标为1的元素开始，依次检索每一个元素，比前一个元素大的情况就使len加1,当碰到其他情况时，就跟maxlen做比较，并且更新maxlen的值。注意有一种特殊情况就是数组的末尾是上升的，这使得最后一个上升区间并没有被记录下来，因为maxlen没有被更新，而是将长度记录在len，所以在程序最后需要再用maxlen与len做比较。
+class Solution {
+public:
+    int findLengthOfLCIS(vector<int>& nums) {
+        if(nums.size()==0) return 0;
+        int len=1;
+        int maxlen=INT_MIN;
+        for(int i=1;i<nums.size();i++){
+            if(nums[i]>nums[i-1]){
+                len++;
+            }
+            else {
+                maxlen=max(maxlen,len);
+                len=1;
+            }
+        }
+        maxlen=max(maxlen,len);
+        return maxlen;
+    }
+};
